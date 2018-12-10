@@ -58,6 +58,22 @@ if(REGISTER_API == 'on') {
     $domain = isset($_POST['domain']) ? trim($_POST['domain']) : null;
     $captcha = isset($_POST['captcha']) ? trim($_POST['captcha']) : null;
 
+    // Check reCaptcha
+    $url = 'https://www.google.com/recaptcha/api/siteverify';
+    $data = [
+        'secret' => '6LetYH8UAAAAAA2b-bMY9Ceke1dlU1X1HUQ84DKw',
+        'response' => $_POST['captcha']
+    ];
+    $options = [
+        'http' => [
+            'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+            'method'  => 'POST',
+            'content' => http_build_query($data)
+        ]
+    ];
+    $context  = stream_context_create($options);
+    $recaptcha = json_decode(file_get_contents($url, false, $context));
+
     // Enough data?
     if(!$username || !$password || !$domain || !$captcha) {
         $error = true;
@@ -76,10 +92,7 @@ if(REGISTER_API == 'on') {
     } else if($domain != HOST_MAIN) {
         $error = true;
         $error_reason = 'Domain Not Allowed';
-    } else if($session_captcha == null) {
-        $error = true;
-        $error_reason = 'CAPTCHA Session Missing';
-    } else if(strtolower(trim($captcha)) != strtolower(trim($session_captcha))) {
+    } else if(!$recaptcha->success) {
         $error = true;
         $error_reason = 'CAPTCHA Not Matching';
     } else {

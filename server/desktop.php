@@ -55,6 +55,7 @@ if(!defined('JAPPIX_BASE')) {
         httpAuthentication();
         echo "\n";
     } ?>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
 <body class="body-images">

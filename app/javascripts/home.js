@@ -10,6 +10,12 @@ Authors: Valérian Saliou, LinkMauve
 
 */
 
+function initReCaptcha() {
+    grecaptcha.render('recaptcha', {
+        'sitekey' : '6LetYH8UAAAAALZFsM5PF_qA_hfGnIbZedL7prCj'
+    });
+};
+
 // Bundle
 var Home = (function () {
 
@@ -273,9 +279,9 @@ var Home = (function () {
                                 '<input type="password" class="password" id="rpassword" ' + disable_form + ' required="" placeholder="' + Common._e("Enter password") + '" /><input type="password" class="spassword" id="spassword" ' + disable_form + ' required="" placeholder="' + Common._e("Once again...") + '" />';
 
                     if(REGISTER_API == 'on') {
-                        code += '<div class="captcha_grp">' +
-                                    '<label for="captcha">' + Common._e("Code") + '</label><input type="text" class="captcha" id="captcha" ' + disable_form + ' maxlength="6" pattern="[a-zA-Z0-9]{6}" required="" placeholder="' + Common._e("Security code") + '" /><img class="captcha_img" src="./server/captcha.php?id=' + genID() + '" alt="" />' +
-                                '</div>';
+                        code += '<div style="text-align: center">';
+                        code += '<div style="display: inline-block" id="recaptcha" ></div>';
+                        code += '</div>';
                     }
 
                     code += '</fieldset>' +
@@ -303,6 +309,10 @@ var Home = (function () {
                     $(current),
                     div
                 );
+
+                if(REGISTER_API == 'on') {
+                    initReCaptcha();
+                }
             }
 
             // We focus on the first input
@@ -402,7 +412,7 @@ var Home = (function () {
             var domain = path_sel.find('.server').val();
             var pass = path_sel.find('.password').val();
             var spass = path_sel.find('.spassword').val();
-            var captcha = path_sel.find('.captcha').val();
+            var captcha = path_sel.find('#g-recaptcha-response').val();
 
             // Enough values?
             if(domain && username && pass && spass && (pass == spass) && !((REGISTER_API == 'on') && (domain == HOST_MAIN) && !captcha)) {

@@ -56,8 +56,8 @@ var Connection = (function () {
                 Interface.title('home');
 
                 // In all case, update CAPTCHA
-                $('#home img.captcha_img').attr('src', './server/captcha.php?id=' + genID());
-                $('#home input.captcha').val('');
+                // $('#home img.captcha_img').attr('src', './server/captcha.php?id=' + genID());
+                // $('#home input.captcha').val('');
 
                 // Registration okay
                 if($(data).find('query status').text() == '1') {
