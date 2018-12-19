@@ -278,11 +278,10 @@ var Home = (function () {
                                 '<label for="rpassword">' + Common._e("Password") + '</label>' +
                                 '<input type="password" class="password" id="rpassword" ' + disable_form + ' required="" placeholder="' + Common._e("Enter password") + '" /><input type="password" class="spassword" id="spassword" ' + disable_form + ' required="" placeholder="' + Common._e("Once again...") + '" />';
 
-                    if(REGISTER_API == 'on') {
-                        code += '<div style="text-align: center">';
-                        code += '<div style="display: inline-block" id="recaptcha" ></div>';
-                        code += '</div>';
-                    }
+
+                    code += '<div style="text-align: center">';
+                    code += '<div style="display: inline-block" id="recaptcha" ></div>';
+                    code += '</div>';
 
                     code += '</fieldset>' +
 
@@ -310,9 +309,7 @@ var Home = (function () {
                     div
                 );
 
-                if(REGISTER_API == 'on') {
-                    initReCaptcha();
-                }
+                initReCaptcha();
             }
 
             // We focus on the first input
